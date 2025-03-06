@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка документа</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Привет, {{ user }}!</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="document">Выберите документ:</label>
+        <input type="file" id="document" name="document" required>
+
+        <label for="date">Выберите дату:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="status">Выберите статус:</label>
+        <select id="status" name="status" required>
+            <option value="Новый">Новый</option>
+            <option value="В процессе">В процессе</option>
+            <option value="Завершен">Завершен</option>
+        </select>
+
+        <button type="submit">Отправить</button>
+    </form>
+
+    <p><a href="{{ url_for('logout') }}">Выйти</a></p>
+</body>
+</html>
