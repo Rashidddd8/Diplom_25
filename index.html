@@ -2,28 +2,61 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Загрузка документа</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Привет, {{ user }}!</h1>
-    <form method="POST" enctype="multipart/form-data">
-        <label for="document">Выберите документ:</label>
-        <input type="file" id="document" name="document" required>
+    <br>
+    <a href="{{ url_for('logout') }}">Выйти</a>
 
-        <label for="date">Выберите дату:</label>
-        <input type="date" id="date" name="date" required>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Дата/Время</th>
+            <th>Шифр</th>
+            <th>Номер</th>
+            <th>Статус</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.code }}</td>
+            <td>{{ record.number }}</td>
+            <td>
+                <select class="status-select" data-id="{{ record.id }}">
+                    <option value="Новый" {% if record.status == 'Новый' %}selected{% endif %}>Новый</option>
+                    <option value="В процессе" {% if record.status == 'В процессе' %}selected{% endif %}>В процессе</option>
+                    <option value="Завершен" {% if record.status == 'Завершен' %}selected{% endif %}>Завершен</option>
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 
-        <label for="status">Выберите статус:</label>
-        <select id="status" name="status" required>
-            <option value="Новый">Новый</option>
-            <option value="В процессе">В процессе</option>
-            <option value="Завершен">Завершен</option>
-        </select>
-
-        <button type="submit">Отправить</button>
+    <h2>Добавить запись</h2>
+    <form method="POST">
+        <input type="text" name="date" placeholder="Дата/Время" required>
+        <input type="text" name="code" placeholder="Шифр" required>
+        <input type="text" name="number" placeholder="Номер" required>
+        <input type="text" name="number" placeholder="Статус" required>
+        <button type="submit">Добавить</button>
     </form>
 
-    <p><a href="{{ url_for('logout') }}">Выйти</a></p>
+    <script>
+        document.querySelectorAll('.status-select').forEach(select => {
+            select.addEventListener('change', function() {
+                const recordId = this.dataset.id;
+                const newStatus = this.value;
+
+                fetch(`/update_status/${recordId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `status=${newStatus}`
+                });
+            });
+        });
+    </script>
 </body>
 </html>
