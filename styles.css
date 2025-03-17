@@ -1,4 +1,4 @@
- body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
@@ -8,32 +8,89 @@
 h1 {
     text-align: center;
     color: #333;
+    margin-top: 20px;
 }
 
-form {
-    width: 300px;
-    margin: 100px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
 }
 
-label {
+a {
     display: block;
-    margin-bottom: 5px;
-    color: #555;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007BFF;
+    text-decoration: none;
 }
 
-input[type="text"],
-input[type="file"],
-input[type="date"],
+a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для таблицы */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Стили для выпадающего списка */
 select {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Форма добавления новой записи */
+form {
+    width: 60%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"] {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 button {
@@ -50,7 +107,43 @@ button:hover {
     background-color: #45a049;
 }
 
-p {
-    text-align: center;
-    color: red;
+
+/* Стили для формы логина */
+form {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%; /* Выравниваем по ширине */
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Чтобы отступы не ломали ширину */
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
