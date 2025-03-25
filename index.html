@@ -2,10 +2,13 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Таблица с данными</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <br>
+    <h1>Таблица с данными</h1>
+
+    <p class="user-info">Пользователь: <strong>{{ user }}</strong></p>
     <a href="{{ url_for('logout') }}">Выйти</a>
 
     <table>
@@ -15,19 +18,17 @@
             <th>Шифр</th>
             <th>Номер</th>
             <th>Статус</th>
+            <th>Действия</th>
         </tr>
         {% for record in records %}
         <tr>
-            <td>{{ record.id }}</td>
-            <td>{{ record.date }}</td>
-            <td>{{ record.code }}</td>
-            <td>{{ record.number }}</td>
+            <td>{{ record[0] }}</td>
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td>
+            <td>{{ record[3] }}</td>
+            <td>{{ record[4] }}</td>
             <td>
-                <select class="status-select" data-id="{{ record.id }}">
-                    <option value="Новый" {% if record.status == 'Новый' %}selected{% endif %}>Новый</option>
-                    <option value="В процессе" {% if record.status == 'В процессе' %}selected{% endif %}>В процессе</option>
-                    <option value="Завершен" {% if record.status == 'Завершен' %}selected{% endif %}>Завершен</option>
-                </select>
+                <a href="{{ url_for('edit', record_id=record[0]) }}" class="edit-btn">Редактировать</a>
             </td>
         </tr>
         {% endfor %}
@@ -35,28 +36,20 @@
 
     <h2>Добавить запись</h2>
     <form method="POST">
-        <input type="text" name="date" placeholder="Дата/Время" required>
+        <label for="date">Дата:</label>
+        <input type="date" name="date" id="date" value="{{ datetime.today().strftime('%Y-%m-%d') }}">
+
         <input type="text" name="code" placeholder="Шифр" required>
         <input type="text" name="number" placeholder="Номер" required>
-        <input type="text" name="number" placeholder="Статус" required>
+
+        <label for="status">Статус:</label>
+        <select name="status">
+            {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+            {% endfor %}
+        </select>
+
         <button type="submit">Добавить</button>
     </form>
-
-    <script>
-        document.querySelectorAll('.status-select').forEach(select => {
-            select.addEventListener('change', function() {
-                const recordId = this.dataset.id;
-                const newStatus = this.value;
-
-                fetch(`/update_status/${recordId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `status=${newStatus}`
-                });
-            });
-        });
-    </script>
 </body>
 </html>
