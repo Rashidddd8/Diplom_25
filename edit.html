@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать запись</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Редактировать запись</h1>
+
+    <form method="POST">
+        <label for="date">Дата:</label>
+        <input type="date" name="date" id="date" value="{{ record.date }}" required>
+
+        <label for="code">Шифр:</label>
+        <input type="text" name="code" id="code" value="{{ record.code }}" required>
+
+        <label for="number">Номер:</label>
+        <input type="text" name="number" id="number" value="{{ record.number }}" required>
+
+        <label for="status">Статус:</label>
+        <select name="status">
+            {% for status in statuses %}
+                <option value="{{ status }}" {% if record.status == status %}selected{% endif %}>{{ status }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <a href="{{ url_for('index') }}">Назад</a>
+</body>
+</html>
