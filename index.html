@@ -8,7 +8,7 @@
 <body>
     <h1>Таблица с данными</h1>
 
-    <p class="user-info">Пользователь: <strong>{{ user }}</strong></p>
+    <p class="user-info">Пользователь: <strong>{{ user }}</strong> (роль: {{ role }})</p>
     <a href="{{ url_for('logout') }}">Выйти</a>
 
     <table>
@@ -28,12 +28,17 @@
             <td>{{ record[3] }}</td>
             <td>{{ record[4] }}</td>
             <td>
-                <a href="{{ url_for('edit', record_id=record[0]) }}" class="edit-btn">Редактировать</a>
+                {% if role != 'reader' %}
+                    <a href="{{ url_for('edit', record_id=record[0]) }}" class="edit-btn">Редактировать</a>
+                {% else %}
+                    <span class="disabled-btn">Недоступно</span>
+                {% endif %}
             </td>
         </tr>
         {% endfor %}
     </table>
 
+    {% if role != 'reader' %}
     <h2>Добавить запись</h2>
     <form method="POST">
         <label for="date">Дата:</label>
@@ -42,14 +47,22 @@
         <input type="text" name="code" placeholder="Шифр" required>
         <input type="text" name="number" placeholder="Номер" required>
 
-        <label for="status">Статус:</label>
-        <select name="status">
-            {% for status in statuses %}
-                <option value="{{ status }}">{{ status }}</option>
-            {% endfor %}
-        </select>
+        {% if role == 'admin' %}
+            <label for="status">Статус:</label>
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status }}">{{ status }}</option>
+                {% endfor %}
+            </select>
+        {% else %}
+            <input type="hidden" name="status" value="Новый">
+            <p>Статус: <strong>Новый</strong> (по умолчанию)</p>
+        {% endif %}
 
         <button type="submit">Добавить</button>
     </form>
+    {% else %}
+        <p style="text-align: center; color: gray;">Добавление записей недоступно для пользователя с правами только на чтение.</p>
+    {% endif %}
 </body>
 </html>
