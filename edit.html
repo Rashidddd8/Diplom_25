@@ -10,24 +10,29 @@
 
     <form method="POST">
         <label for="date">Дата:</label>
-        <input type="date" name="date" id="date" value="{{ record.date }}" required>
+        <input type="date" name="date" id="date" value="{{ record[1] }}" required>
 
         <label for="code">Шифр:</label>
-        <input type="text" name="code" id="code" value="{{ record.code }}" required>
+        <input type="text" name="code" id="code" value="{{ record[2] }}" required>
 
         <label for="number">Номер:</label>
-        <input type="text" name="number" id="number" value="{{ record.number }}" required>
+        <input type="text" name="number" id="number" value="{{ record[3] }}" required>
 
-        <label for="status">Статус:</label>
-        <select name="status">
-            {% for status in statuses %}
-                <option value="{{ status }}" {% if record.status == status %}selected{% endif %}>{{ status }}</option>
-            {% endfor %}
-        </select>
+        {% if session['role'] == 'admin' %}
+            <label for="status">Статус:</label>
+            <select name="status">
+                {% for status in statuses %}
+                    <option value="{{ status }}" {% if record[4] == status %}selected{% endif %}>{{ status }}</option>
+                {% endfor %}
+            </select>
+        {% else %}
+            <input type="hidden" name="status" value="{{ record[4] }}">
+            <p>Статус: <strong>{{ record[4] }}</strong> (нельзя изменить)</p>
+        {% endif %}
 
         <button type="submit">Сохранить</button>
     </form>
 
-    <a href="{{ url_for('index') }}">Назад</a>
+    <a href="{{ url_for('index') }}" class="back-link">← Назад</a>
 </body>
 </html>
